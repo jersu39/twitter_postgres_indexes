@@ -1,6 +1,7 @@
 /*
  * Calculates the hashtags that are commonly used for English tweets containing the word "coronavirus"
  */
+
 select
     '#' || tag as tag,
     count(*) as count

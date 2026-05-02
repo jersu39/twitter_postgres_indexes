@@ -15,31 +15,5 @@ create index on tweets_jsonb using gin(to_tsvector('english', COALESCE(data->'ex
 
 create index on tweets_jsonb ((data ->>'id'), (data->>'lang'));
 
+create index on tweets_jsonb using gin(to_tsvector('english', COALESCE(data->'extended_tweet'->>'full_text', data->>'text'))) where (data->>'lang'='en');
 
-
-
-/*
-
-where data->'entities'->'hashtags' @> '[{"text": "coronavirus"}]'
-    or data->'extended_tweet'->'entities'->'hashtags' @> '[{"text": "coronavirus"}]';
-
-where data->'entities'->'hashtags' @> '[{"text": "coronavirus"}]'
-    or data->'extended_tweet'->'entities'->'hashtags' @> '[{"text": "coronavirus"}]'
-group by tag
-order by count desc, tag
-
-where data->'entities'->'hashtags' @> '[{"text": "coronavirus"}]'
-    or data->'extended_tweet'->'entities'->'hashtags' @> '[{"text": "coronavirus"}]'
-group by lang
-order by count desc, lang;
-
-where to_tsvector('english', COALESCE(data->'extended_tweet'->>'full_text',data->>'text'))@@to_tsquery('english', 'coronavirus')
-    and data->>'lang' = 'en'
-
-    where to_tsvector('english', COALESCE(data->'extended_tweet'->>'full_text',data->>'text'))@@to_tsquery('english', 'coronavirus')
-        and data->>'lang' = 'en'
-) t
-group by tag
-order by count desc, tag
-
-*/
